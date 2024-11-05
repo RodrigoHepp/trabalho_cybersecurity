@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="bootstrap-5.3.2-dist/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">MinhaApp</a>
+            <button class="btn btn-danger ms-auto" onclick="logout()">Sair</button>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>Bem-vindo(a) ao Dashboard</h1>
+        <p>Somente usuários autenticados podem ver esta página.</p>
+    </div>
+</body>
+<script src="bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Simulação de logout removendo token
+    function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+    }
+</script>
+</html>
