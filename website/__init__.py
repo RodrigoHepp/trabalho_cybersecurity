@@ -1,6 +1,9 @@
-from flask import Flask
+from flask import Flask, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
+from functools import wraps
+import jwt
+
+from datetime import datetime
 
 import os
 from dotenv import load_dotenv
@@ -29,6 +32,10 @@ def cria_app():
     app.register_blueprint(auth, url_prefix="/")
     app.register_blueprint(api, url_prefix="/api")
 
+    # Se for a primeira vez rodando o app execute a linha 39 antes
+    # Requer um banco 'cybersecurity'
+    # Depois pode comentar novamente
+
     # cria_database(app)
 
     return app
@@ -37,3 +44,31 @@ def cria_app():
 def cria_database(app):
     with app.app_context():
         db.create_all()
+
+
+def get_secret_key():
+    return SECRET_KEY
+
+
+def token_required(func):
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        token = session.get("token")
+        if not token:
+            return redirect(url_for("views.denied"))
+
+        try:
+            dados = jwt.decode(token, SECRET_KEY, algorithms="HS256")
+            data = dados["expiration"].split(".")[0]
+
+            expiration = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+
+            # TODO: UX indicando que o token expirou
+            if datetime.now() > expiration:
+                return redirect(url_for("auth.login"))
+
+        except Exception as e:
+            return redirect(url_for("views.denied"))
+        return func(*args, **kwargs)
+
+    return decorated

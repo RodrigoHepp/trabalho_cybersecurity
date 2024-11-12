@@ -1,8 +1,9 @@
-from flask import Blueprint, request, redirect, url_for
+from flask import Blueprint, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, logout_user
+import jwt
+from datetime import datetime, timedelta
 
-from . import db
+from . import db, get_secret_key
 from .models import Usuario
 
 api = Blueprint("api", __name__)
@@ -10,9 +11,6 @@ api = Blueprint("api", __name__)
 
 @api.route("/login", methods=["POST"])
 def login():
-    if request.method != "POST":
-        return redirect(url_for("auth.login"))
-
     email = request.form.get("email")
     senha = request.form.get("password")
 
@@ -28,21 +26,35 @@ def login():
         print("Senha invalida")
         return redirect(url_for("auth.login"))
 
-    print("Usuario Logado Com Sucesso")
-    return redirect(url_for("views.home"))
+    token = jwt.encode(
+        {
+            "email": email,
+            "expiration": str(datetime.now() + timedelta(seconds=60)),
+        },
+        get_secret_key(),
+        algorithm="HS256",
+    )
+
+    session["token"] = token
+
+    return redirect(url_for("views.auth"))
 
 
-@api.route("/logout")
+@api.route("/logout", methods=["POST"])
 def logout():
-    # TODO: LIMPAR OS TOKENS
+    if request.method != "POST":
+        return redirect(url_for("views.denied"))
+
+    for key in list(session.keys()):
+        session.pop(key)
 
     return redirect(url_for("views.home"))
 
 
-@api.route("/sign-up", methods=["GET", "POST"])
+@api.route("/sign-up", methods=["POST"])
 def sign_up():
     if request.method != "POST":
-        return redirect(url_for("auth.sign_up"))
+        return redirect(url_for("views.denied"))
 
     email = request.form.get("email")
     nome = request.form.get("name")
