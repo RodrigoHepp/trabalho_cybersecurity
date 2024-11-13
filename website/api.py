@@ -40,11 +40,8 @@ def login():
     return redirect(url_for("views.auth"))
 
 
-@api.route("/logout", methods=["POST"])
+@api.route("/logout", methods=["GET", "POST"])
 def logout():
-    if request.method != "POST":
-        return redirect(url_for("views.denied"))
-
     for key in list(session.keys()):
         session.pop(key)
 
