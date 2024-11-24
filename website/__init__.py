@@ -53,10 +53,7 @@ def cria_app():
     app.register_blueprint(auth, url_prefix="/")
     # app.register_blueprint(api, url_prefix="/api")
 
-    # Se for a primeira vez rodando o app execute a linha 39 antes
     # Requer um banco 'cybersecurity'
-    # Depois pode comentar novamente
-
     cria_database(app)
 
     return app
