@@ -5,14 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url('https://i.pinimg.com/originals/c5/9a/d2/c59ad2bd4ad2fbacd04017debc679ddb.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+        }
+    
+        h1, p, a {
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Glow effect */
+        }
+    
+        a.btn-primary {
+            color: white;
+            background-color: rgba(0, 123, 255, 0.8); /* Slight transparency */
+            border-color: rgba(0, 123, 255, 0.8);
+        }
+    
+        a.btn-primary:hover {
+            background-color: rgba(0, 123, 255, 1);
+        }
+
+        a.btn-danger {
+            color: white !important;
+            background-color: rgba(255, 0, 0, 0.8); /* Slight transparency */
+            border-color: rgba(255, 0, 0, 0.8);
+        }
+    
+        a.btn-gander:hover {
+            background-color: rgb(201, 0, 0);
+        }
+    </style>    
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">MinhaApp</a>
-            <button class="btn btn-danger ms-auto" onclick="logout()">Sair</button>
-        </div>
-    </nav>
     <div class="container mt-5">
         <h1>{{ email }}, Bem-vindo(a) ao Dashboard</h1>
         <p>Somente usuários autenticados podem ver esta página.</p>
@@ -20,6 +49,7 @@
         {% if adm == True %}
             <a href="/adm" class="btn btn-primary">Acessar area de admionstradores</a>
         {% endif %}
+        <a class="btn btn-danger ms-auto" onclick="logout()">Sair</a>
     </div>
     
 </body>
