@@ -1,3 +1,5 @@
+# Model Deprecated
+
 from flask import Blueprint, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
@@ -65,6 +67,7 @@ def sign_up():
 
     # TODO: UX
     # TODO: VERIFICACOES BASICAS
+    # TODO: REDIRECT PARA PRINCIPAL
     # SENHA EH MAIOR Q 'X'
     # NOME TEM MAIS Q 'X' LETRAS
     # SENHA E CONF SENHA (?)
@@ -74,4 +77,4 @@ def sign_up():
     db.session.add(novo_usuario)
     db.session.commit()
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.auth"))

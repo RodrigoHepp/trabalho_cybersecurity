@@ -10,7 +10,7 @@
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4 col-md-4 shadow">
             <h3 class="text-center mb-4">Entrar</h3>
-            <form id="loginForm" action="/api/login" method="POST">
+            <form id="loginForm" action="/login" method="POST">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" required>
@@ -22,8 +22,20 @@
                 <button type="submit" class="btn btn-primary w-100">Login</button>
             </form>
             <div class="text-center mt-3">
+                <p>Ou entre com</p>
+                <a href="/login-google" class="btn btn-danger w-100">
+                    <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt="Google Logo" style="width: 20px; margin-right: 10px;">
+                    Login com Google
+                </a>                 
+            </div>
+
+            <div class="text-center mt-3">
                 <p>Não tem uma conta? <a href="/sign-up">Registre-se</a></p>
             </div>
+
+            {% if error_message != "None" %}
+                <div id="response-api" class="w-80 alert alert-danger"><span class="danger-span"> {{ error_message }} </span></div>
+            {% endif %}
         </div>
     </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
